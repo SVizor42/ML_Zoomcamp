@@ -1,0 +1,15 @@
+input_data_path: "data/raw/IMDB Dataset.csv.zip"
+output_model_path: "models/model.pkl"
+metric_path: "models/metrics.json"
+splitting_params:
+  val_size: 0.2
+  random_state: 42
+train_params:
+  transformer_type: "TfidfVectorizer"
+  transformer_max_df: 1.0
+  transformer_max_features: 50000
+  transformer_min_ngram: 1
+  transformer_max_ngram: 2
+  model_type: "LogisticRegression"
+  model_random_state: 42
+  model_C: 10
