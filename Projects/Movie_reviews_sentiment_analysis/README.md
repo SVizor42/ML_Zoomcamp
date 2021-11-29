@@ -3,16 +3,16 @@ Movie reviews sentiment analysis
 Overview
 ------------
 This project was executed as a part of the [Machine Learning Zoomcamp](https://github.com/alexeygrigorev/mlbookcamp-code/tree/master/course-zoomcamp) course held by [DataTalks.Club](https://datatalks.club/). 
-It covers binary classification problem, but at the same time have some features related to the text data processing. 
+It covers binary classification problem, but at the same time has some features related to text data processing. 
 It doesn't contain complex approaches and uses only standard libraries of 'classical' machine learning. 
 The project covers the main stages of development according to the CRISP-DM methodology.
 
 Problem description
 ------------
 Midterm project is related to movie reviews sentiment analysis based on IMDB Database.
-Is main goal is correctly classify the positive and negative sentiments for IMDB reviews. 
+The main goal is to correctly classify the positive and negative sentiments for IMDB reviews. 
 The task itself is very important, especially in such business areas as marketing and ads. 
-Sentiment analysis could help you determine your customers' level of satisfaction based on their feedback.
+Sentiment analysis can help you determine your customers' level of satisfaction based on their feedback.
 Or even detect scam, abuse or trolling in Twitter or forum posts. That's why i decided to pay attention to this topic.
 
 Dataset
@@ -79,6 +79,11 @@ In case of `conda`, just follow the steps below:
 4. Install all package using `pip install -r requirements.txt`.
 
 And that's all! Now you can easily run the scripts and notebooks.
+### Run service
+To run the service locally in your environment, simply use the following command:
+```bash
+uvicorn predict:app --host=0.0.0.0 --port=8000
+```
 ### Containerization
 Here is a short guide how to build an image from Dockerfile and run then a container on your local machine.
 Be sure that you have already installed the Docker, and it's running on your machine now.
@@ -105,7 +110,6 @@ So, there is no need to specify it manually.
 If we have successfully deployed the app, the link opens without problems.
 
 Now we can move on to the next step - service testing.
-
 ### Service testing
 There are a couple of ways to test the deployed service:
 * use the Swagger UI provided by FastAPI framework (https://movie-reviews-docker.herokuapp.com/docs in our case);
