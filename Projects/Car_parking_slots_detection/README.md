@@ -2,6 +2,8 @@ Car parking slots detection
 ==============================
 Overview
 ------------
+This project was completed as part of the [Machine Learning Zoomcamp course](https://github.com/alexeygrigorev/mlbookcamp-code/tree/master/course-zoomcamp) held by [Alexey Grigorev](https://de.linkedin.com/in/agrigorev) from [DataTalks.Club](https://datatalks.club/).
+It covers the field of deep learning - the problem of classification, to be precise. For more details, please, go through the paragraphs below.
 
 Problem description
 ------------
@@ -16,6 +18,7 @@ AI vision-based systems are also highly scalable and can be used in indoor envir
 
 Dataset
 ------------
+The initial dataset is called [CNRPark+EXT - A Dataset for Visual Occupancy Detection of Parking Lots](http://cnrpark.it/). This is a dataset for visual occupancy detection of parking lots of roughly 150,000 labeled images (patches) of vacant and occupied parking spaces, built on a parking lot of 164 parking spaces.
 
 Project structure
 ------------
@@ -150,3 +153,10 @@ To test our Heroku deployment, we should type:
 python src/send_request.py --host=parking-slots-docker.herokuapp.com
 ```
 You can also use this script to test the service that is running locally.
+
+To-Do list
+------------
+- [ ] Finetune other pretrained models
+- [ ] Make predictions for the whole image from the camera
+- [ ] Use detection / segmentation approach
+- [ ] Write unit tests
