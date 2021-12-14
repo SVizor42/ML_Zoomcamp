@@ -1,0 +1,5 @@
+fastapi==0.70.0
+h5py==3.1.0
+python-multipart==0.0.5
+requests==2.25.1
+uvicorn==0.15.0

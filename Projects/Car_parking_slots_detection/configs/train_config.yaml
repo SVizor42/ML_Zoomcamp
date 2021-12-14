@@ -1,0 +1,16 @@
+data_dir: "data/processed"
+model_dir: "models"
+image_params:
+  width: 150
+  height: 150
+  n_channels: 3
+train_params:
+  base_model: "Xception"
+  use_inner_layer: True
+  inner_size: 100
+  use_dropout: True
+  drop_rate: 0.5
+  optimizer: 'SGD'
+  learning_rate: 0.001
+  batch_size: 32
+  epochs: 1
