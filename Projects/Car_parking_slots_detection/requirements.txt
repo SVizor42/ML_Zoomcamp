@@ -11,6 +11,6 @@ python-multipart==0.0.5
 requests==2.25.1
 scikit-learn==1.0
 seaborn==0.11.2
-tensorflow=2.7.0
+tensorflow==2.7.0
 typing_extensions==4.0.1
 uvicorn==0.15.0

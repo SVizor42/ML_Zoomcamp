@@ -48,8 +48,8 @@ The project structure is similar to [Cookiecutter Data Science](https://drivenda
     │   ├── entities                    <- Simple classes for input/output data.
     │   │   ├── image_params.py
     │   │   ├── parking_slot_response.py
-    │   │   ├── movie_reviews.py
-    │   │   └── movie_reviews.py
+    │   │   ├── train_params.py
+    │   │   └── train_pipeline_params.py
     │   │
     │   ├── models                      <- Scripts to train models and then use trained models to make
     │   │   │                           predictions.

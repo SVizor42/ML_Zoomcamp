@@ -11,6 +11,16 @@ def make_dataset(
         use_augmentation: bool = False,
         use_shuffle: bool = True
 ) -> tf.data.Dataset:
+    """
+    Prepares dataset.
+    :param model_type: base model name
+    :param data_dir: path to the data folder
+    :param target_size: size of the input image [Width x Height]
+    :param batch_size: batch size
+    :param use_augmentation: apply augmentation to the images
+    :param use_shuffle: use data shuffle
+    :return:
+    """
     model_type = str.lower(model_type)
     if model_type == 'xception':
         preprocessor = xception.preprocess_input
