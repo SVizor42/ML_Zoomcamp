@@ -7,6 +7,21 @@ and projects, as well as making projects reviews. All this data was collected du
 by [Alexey Grigorev](https://github.com/alexeygrigorev) for analysis (of course, after hashing sensitive data). 
 So, everyone was felt free to use it to make some research (and still can, I'm sure). That’s what I decided to do.
 
+## Table of contents
+<!--ts-->
+   * [Dataset](#dataset)
+   * [Tools](#tools)
+   * [Plotly](#plotly)
+   * [Workflow](#workflow)
+      * [User data](#user-data)
+      * [Time spent data](#time-spent-data)
+      * [Submissions](#submissions)
+      * [Passed assignments](#passed-assignments)
+      * [Time spent](#time-spent)
+   * [Conclusion](#conclusion)
+<!--te-->
+
+<a id='dataset'></a>
 ## Dataset
 The dataset itself consists of two files:
 * [roles.csv](data/roles.csv) – a small one that contains columns such as user emails and their occupation;
@@ -17,12 +32,14 @@ The idea was simple:
 * to load and process the raw data;
 * calculate key course statistics and plot the diagrams according to these results.
 
+<a id='tools'></a>
 ## Tools
 I decided to take the following main tools for doing that:
 1.	[Pandas](https://pandas.pydata.org/) – a standard Python library for reading and processing tabular data.
 2.	[Regular expressions](https://docs.python.org/3/library/re.html) – to find and process specific patterns in the dataset.
 3.	[Plotly](https://plotly.com/python/getting-started/#overview) – powerful tool to build amazing and functional visualizations.
 
+<a id='plotly'></a>
 ## Plotly
 If you ask python developers which library should be used for data visualization, the most popular option will be 
 Matplotlib. We should understand that Matplotlib was created a several years ago, before Data Science became one of 
@@ -50,14 +67,17 @@ To getting start using it, just write the following line:
 import plotly.express as px
 ```
 
+<a id='workflow'></a>
 ## Workflow
+
+<a id='user-data'></a>
 ### User data
-I started my workflow from the dataset loading. To be exact, I loaded [`roles.csv`](data/roles.csv) file using pandas 
+I started my workflow from the dataset loading. To be exact, I loaded [roles.csv](data/roles.csv) file using pandas 
 function `read_csv`.
 ```python
 email_df = pd.read_csv(os.path.join(DATA_DIR, 'roles.csv'))
 ```
-![Roles dataframe](images/roles_1.png)
+<p align='center'><img src='images/roles_1.png'></p>
 
 The initial dataset contained only two columns:
 * `email` – represents the hashed user email and can be used as an Id;
@@ -68,31 +88,33 @@ fields with the `Other` value and looked at the distribution of user roles.
 email_df['role'].fillna('Other', inplace=True)
 roles_df = email_df.groupby('role').count().reset_index().rename(columns={'email': 'count'})
 ```
-![Roles distribution](images/roles_2.png)
+<p align='center'><img src='images/roles_2.png'></p>
 
-To illustrate numerical proportion, I plotted the results using [Pie Chart]('https://plotly.com/python/pie-charts/').
+To illustrate numerical proportion, I plotted the results using [Pie Chart](https://plotly.com/python/pie-charts/).
 ```python
 fig = px.pie(roles_df, values='count', names='role', width=700, height=400)
 ```
-![Roles pie chart](images/roles_3.png)
+<p align='center'><img src='images/roles_3.png'></p>
 
 Students have become the most popular category of course participants.
 
+<a id='time-spent-data'></a>
 ### Time spent data
-The next file – [`time_spent.csv`](data/time_spent.csv) – contained information about the total amount of time the user 
+The next file – [time_spent.csv](data/time_spent.csv) – contained information about the total amount of time the user 
 spent on the course activities and included the following columns:
 * `email` – hashed user email;
 * `time_lectures` – the time that the user spent on watching video materials of the course (lectures);
 * `time_homework` – the amount of time that the user spent on practice (doing homework, as well as projects, making reviews);
 * `what` – assignment name.
 
-![Time spent](images/time_spent_1.png)
+<p align='center'><img src='images/time_spent_1.png'></p>
 
 It seemed to me that the following interesting insights can be extracted from this table:
 1.	Total amount of submissions according to each assignment.
 2.	The number of assignments passed by users.
 3.	And the most interesting part, I guess – how many hours users spent on assignments during the course.
 
+<a id='submissions'></a>
 ### Submissions
 I selected pandas method `value_counts()` to calculate the submissions number for each assignment.
 ```python
@@ -104,10 +126,11 @@ And then plotted it with [Bar Chart from Plotly](https://plotly.com/python/bar-c
 fig = px.bar(submission_df, x='assignment', y='submissions', text_auto='3s', width=800, height=600)
 fig.update_traces(textfont_size=12, textangle=0, textposition='outside', cliponaxis=False)
 ```
-![Submissions distribution](images/submissions.png)
+<p align='center'><img src='images/submissions.png'></p>
 
 Yes, as expected, the first homework has the largest number of unique submissions, while the last one wasn’t so popular.
 
+<a id='passed-assignments'></a>
 ### Passed assignments
 I also decided to group data according to the `email` column and calculate the number of assignments passed by each user.
 ```python
@@ -144,6 +167,7 @@ Short observations:
 Finally, I decided to move on to the trickiest part – estimating the time that users spent watching lectures, doing 
 homework and projects.
 
+<a id='time-spent'></a>
 ### Time spent
 Why this part was the trickiest one? Because the key columns `time_lectures` and `time_homework` contained data in 
 different formats. People filled in these text fields in the Google form in various ways, using:
@@ -204,15 +228,13 @@ def extract_numbers(text: str) -> str:
 I divided the initial time spent dataset into separate parts (lectures, homework, projects and reviews) and independently 
 applied the above pipeline. The results of using this pipeline in case of lectures data can be seen below.
 
-![Processed time spent dataframe](images/time_spent_2.png)
+<p align='center'><img src='images/time_spent_2.png'></p>
 
 Using `hours` column I calculated the key statistics, and then plotted the distribution of hours spent by users using 
 [Box Plots](https://plotly.com/python/box-plots/).
 ```python
 fig = px.box(
-    lectures_time_df[
-        (lectures_time_df.hours > 0) & (lectures_time_df.hours < 30)
-    ], 
+    lectures_time_df[(lectures_time_df.hours > 0) & (lectures_time_df.hours < 30)], 
     x='assignment', 
     y='hours', 
     points='outliers', 
@@ -228,9 +250,13 @@ fig.show()
 I used the same pipeline for homework, projects and reviews dataframes, and built the diagrams for them as well.
 
 ![Homework time spent](images/homework.png)
-![Projects time spent](images/projects.png)|![Reviews time spent](images/reviews.png)
+<p align='center'>
+    <img src='images/projects.png'>
+    <img src='images/reviews.png'>
+</p>
 
-### Conclusion
+<a id='conclusion'></a>
+## Conclusion
 In conclusion, I would like to post the key results that I obtained during the data analysis.
 1. Users spent an average of 3 hours for each lecture and 2 hours for homework.
 2. The most time-consuming lectures were on [week-2 (regression)](https://github.com/alexeygrigorev/mlbookcamp-code/tree/master/course-zoomcamp/02-regression) 
@@ -240,5 +266,5 @@ and [week-10 (kubernetes)](https://github.com/alexeygrigorev/mlbookcamp-code/blo
 4. 123 unique users submitted the midterm project, 71 – the capstone project, while 66 – executed both.
 5. Users spent a slightly less time on doing and reviewing midterm projects than on capstone.
 
-If you would like to go through all these steps of the workflow and reproduce the results, [here](ml-zoomcamp-stats.ipynb) 
+If you would like to go through all these steps of the workflow and reproduce the results, [here](https://nbviewer.org/github/SVizor42/ML_Zoomcamp/blob/master/ml-zoomcamp-stats/ml-zoomcamp-stats.ipynb) 
 you can find the original notebook.
